@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link href="/static/login.css" rel="stylesheet" />
+    <!--Import Google Icon Font-->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <!-- Compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+      window.addEventListener( "pageshow", function ( event ) {
+      var historyTraversal = event.persisted ||
+                             ( typeof window.performance != "undefined" &&
+                                  window.performance.navigation.type === 2 );
+      if ( historyTraversal ) {
+        // Handle page restore.
+        window.location.reload();
+      }
+    });
+    </script>
+    <script>
+      $(document).ready(function () {
+        $(".carousel").carousel();
+
+        $.getJSON("http://localhost:8000/fetch_all_products", function (data) {
+          htm = "";
+          data.data.map((item) => {
+            var price;
+            var offerprice;
+            var save;
+            if (item.productofferprice > 0) {
+              price = "<s style='color: red;'>" + item.productprice + "</s>";
+              offerprice = item.productofferprice;
+              save = item.productprice - item.productofferprice;
+            } else {
+              offerprice = item.productprice;
+              price = "<div></div>";
+              save = "<div></div>";
+            }
+
+            var data = JSON.stringify(item);
+            // alert(data.length)
+            // console.log(data.length)
+            // console.log("IT:" + item);
+
+            htm += `
+    <div style=" border-radius:10px; 
+                 margin:10px;
+                 display: flex; 
+                 flex-direction: column;
+                 align-items: center; 
+                 width:250px;
+                 height:auto;
+                 padding: 5px;
+                 border:1px solid #bdc3c7;
+                 box-shadow: 2px 2px #ecf0f1;
+                 elevation: below;">
+                  <div>
+                     <a href="http://localhost:8000/buy_product?product=${data}">
+                     <img src="http://localhost:8000/static/${item.producticon}" style='width:150px; height: 150px;' >
+                     </a>
+                  </div>
+                  <div style="padding:5px;">
+                     <div style="width:200px;font-weight: bolder;text-align: left;">
+                         ${item.productname} ${item.scname}
+                     </div>
+                  </div>
+                  <div style="width:200px; font-size:10px;text-align: left;">
+                      <i>Mkt:${item.bname}</i>
+                  </div>
+                  <div style="width:200px;font-weight: bolder;text-align: left;">
+                       MRP:&#8377 ${price}
+                  </div>
+                  <div style="width:200px;font-weight: bolder;text-align: left;">
+                       Offer:&#8377 ${offerprice}
+                  </div>
+                  <div style="width:200px;font-weight:bold;text-align: left; color:green">
+                      You save &#8377 ${save}
+                  </div>
+    </div>`;
+          });
+          // console.log("aaaaaaaaaaaaaaaaa"+htm)
+          $("#productlist").html(htm);
+        });
+      });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="/static/userinterface.js"></script>
+
+    <title>MedAssist</title>
+  </head>
+  <body>
+    <div>{% include 'NavBar.html' %}</div>
+<!-- Starting -->
+<div style="background-color:#f0ffff;">
+      <div style="display: flex; 
+                  justify-content:center;
+                  margin-right: 15px;
+                  margin-left: 15px;">
+          <div class="carousel carousel-slider">
+              <a class="carousel-item" href="#one!"><img src="/static/1.jpg" /></a>
+              <a class="carousel-item" href="#two!"><img src="/static/2.jpg" /></a>
+              <a class="carousel-item" href="#three!"><img src="/static/3.jpg"
+              /></a>
+              <a class="carousel-item" href="#four!"><img src="/static/4.jpg" /></a>
+          </div>
+      </div>
+
+      <!-- OFFER  -->
+      <div style="margin-left: 20px;
+                  margin-right: 20px;
+                  margin-top: 20px" >
+        <!-- Heading -->
+        <div style="display: flex; justify-content: space-between">
+          <span
+            style="
+              font-size: x-large;
+              font-weight: 600;
+              font-family: -webkit-body;
+              margin-left: 7px;
+            "
+            >Payment Partner Offers
+          </span>
+          <a href="#1"><span style="color: red;
+            font-weight: 600;">View All &#8677;</span></a>
+        </div>
+        <!-- BOX 1-->   
+        <div style="display: flex; flex-direction: row">
+          <a href="">
+          <div
+            style="
+              margin: 5px;
+              padding: 10px;
+              width: 400px;
+              background: #fff;
+              height: 80px;
+              border-radius: 10px;
+              display: flex;
+              flex-direction: row;
+              color: black;
+            ">
+            <div style="padding: 5px">
+              <img src="/static/offer_1.png" width="40" />
+            </div>
+            <div style="display: flex; flex-direction: column">
+              <div style="font-weight: bold; padding: 5px">
+                Get up to Rs. 1000 Simpl Cashback* (5%)!
+              </div>
+              <div style="font-size: x-small; margin-left: 5px">
+                Get up to Rs. 1000 Simpl Cashback (5%) on your FIRST-EVER
+                payment via Simpl for ANY purchases* of ANY value on Netmeds.
+              </div>
+            </div>
+          </div>
+        </a>
+        <!-- BOX 1-->   
+
+       <!-- BOX 2 -->
+        <a href="">
+          <div
+            style="
+              margin: 5px;
+              padding: 10px;
+              width: 400px;
+              background: #fff;
+              height: 80px;
+              border-radius: 10px;
+              display: flex;
+              flex-direction: row;
+              color: black;
+            ">
+            <div style="padding: 5px">
+              <img src="/static/offer_2.png" width="40" />
+            </div>
+            <div style="display: flex; flex-direction: column">
+              <div style="font-weight: bold; padding: 5px">
+                Get up to Rs. 300 Paytm Cashback!
+              </div>
+              <div style="font-size: x-small; margin-left: 5px">
+                Get Paytm Cashback of max. Rs. 300 on a minimum purchase of ANY products* worth Rs. 599, when you pay via Paytm wallet/Paytm 
+              </div>
+            </div>
+          </div>
+        </a>
+        <!-- BOX 2 -->
+
+        <!-- BOX 3 -->
+        <a href="">
+          <div
+            style="
+              margin: 5px;
+              padding: 10px;
+              width: 400px;
+              background: #fff;
+              height: 80px;
+              border-radius: 10px;
+              display: flex;
+              flex-direction: row;
+              color: black;
+            ">
+            <div style="padding: 5px">
+              <img src="/static/offer_3.png" width="40" />
+            </div>
+            <div style="display: flex; flex-direction: column">
+              <div style="font-weight: bold; padding: 5px">
+                Use Pay with Rewards, Get max. Rs. 1000 ..
+              </div>
+              <div style="font-size: x-small; margin-left: 5px">
+                Get assured cashback of max. Rs. 1000, when you pay using the “Pay with Rewards” payment option at Netmeds.com/App/M-site, towards ...
+              </div>
+            </div>
+          </div>
+        </a>
+        <!-- BOX 3 -->
+        </div>
+      </div>
+
+      <!--Sub category-->
+      <div style="margin-left: 20px;
+                  margin-right: 20px;
+                  margin-top: 20px">
+          <!-- Headline   -->
+          <div style="display: flex; 
+                      justify-content: space-between">
+              <span style="font-size: x-large;
+                           font-weight: 600;
+                           font-family: -webkit-body;margin-left: 7px;">Shop By Sub-Category
+              </span>
+              <a href="#1">
+                <span style="color: red;
+                             font-weight: 600;">View All &#8677;
+                </span>
+              </a>
+          </div>
+          <!-- Box -->
+          <div
+              style="display: flex; flex-direction: row; height: auto;
+              width: auto;"
+              id="subcategorylist">
+          </div>
+      </div>
+      
+      <!-- order list -->
+      <div style="margin-top: 20px">
+        <div class="row" style="margin-top: 25px">
+
+          <div class="col s6">
+            <div style="display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        background: white;
+                        border-radius: 20px;">
+              <span style="margin-left: 20px">
+                <div style="font-size: x-large;
+                            font-family: -webkit-body;
+                            font-weight: bold;">Previous Orders</div>
+                <div>Your previously ordered products</div>
+                <div  style="margin-top: 20px;margin-bottom: 20px;"><a href="">
+                  <span style="font-weight: bold;
+                               margin-right: 25px;
+                               font-size: large;
+                               color: #01a3a4;">View Orders
+                  </span>
+                  <span style="background: #01a3a4;
+                                color: white;
+                                border-radius: 100%;
+                                font-size: x-large;
+                                font-family: sans-serif;" >&nbsp;&#62;&nbsp;
+                  </span>
+                </a>
+                </div>
+              </span>
+              <span>
+                <img src="/static/offer1.png" alt="">
+              </span>
+            </div>
+          </div>
+
+          <div class="col s6">
+            <div style="display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        background: white;
+                        border-radius: 20px;">
+              <span style="margin-left: 20px">
+                <div style="font-size: x-large;
+                            font-family: -webkit-body;
+                            font-weight: bold;">Beauty Products</div>
+                <div style="color:green">Save Upto 40% off</div>
+                <div  style="margin-top: 20px;"><a href="">
+                  <button
+                    product="{{ product }}"
+                    class="btn wave-light wave-effect addtocart"
+                    style="background: #01a3a4; 
+                           margin-right: 10px;    
+                           border-radius: 6px;
+                           margin-bottom: 20px;">
+                    Explore Beauty
+                  </button>
+                  <!-- <span style="background: #01a3a4;
+                               color: white;
+                               font-size: large;
+                               border-radius: 5px;
+                               font-family: system-ui;">&nbsp;&nbsp;Explore Beauty&nbsp;&nbsp;
+                  </span> -->
+                </a>
+                </div>
+              </span>
+              <span>
+                <img src="/static/Screenshot%202022-09-03%20004308.png" alt="">
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Product List -->
+
+      <div
+        id="productlist"
+        style="
+          padding: 5px;
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+        "
+      ></div>
+    </div>
+  </div>
+  <!-- Ending -->
+    {% include 'Footer.html' %}
+  </body>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $(".carousel.carousel-slider").carousel({
+        fullWidth: true,
+        indicators: true,
+      });
+    });
+  </script>
+  <script>
+    $(document).ready(function () {
+      $(".sidenav").sidenav();
+    });
+  </script>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<link href="/static/category.css" rel="stylesheet">
+<html lang="en">
+
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+</head>
+<meta charset="UTF-8">
+
+<body>
+
+    <div class="maincontainer" style="height:100%; ">
+        <!--  add in below div  style="padding:20px;"-->
+        <div class="box" style="padding: 20px; width: 75%;height:auto;">
+            <div class="boxheading">
+
+                <span class="headingtext">Category List</span>
+
+                <span style="padding:3px;width:60%;display: flex;justify-content: flex-end"><a
+                        href="http://localhost:8000/categoryinterface"><i class="material-icons"
+                            style="color: #FFFFFF; font-size: 24px;">add_box</i></a></span>
+            </div>
+
+            <table class="striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>CATEGORY NAME</th>
+                        <th>ICON</th>
+                        <th>UPDATE</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for row in records %}
+                    <tr>
+                        <td>{{row.categoryid}}</td>
+                        <td>{{row.categoryname}}</td>
+                        <td><a><img categoryicon="{{row.categoryicon}}" cid="{{row.categoryid}}" class="imgbtn"
+                                    src="/static/{{row.categoryicon}}" width="40" /></a></td>
+                        <td><a cid="{{row.categoryid}}" class="waves-effect waves-light btn editdeletebtn modal-trigger"
+                                cname="{{row.categoryname}}" href="#modal1">Edit/Delete</a></td>
+
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- Modal Structure For Edit Delete -->
+    <div class="modal" id="modal1" style="max-height: 700px">
+        <div class="modal-content">
+            <input id="categoryid" type="hidden" />
+
+            <!--            <div class="maincontainer">-->
+            <div class="modelbox">
+                <div class="boxheading">
+                    <span class="headingtext">Update Category</span>
+                </div>
+
+                <div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">account_circle</i>
+                            <input class="validate" id="categoryname" name="categoryname" required type="text">
+                            <label for="categoryname">Category Name</label>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="row ">
+                    <div class="col s6 btnrow">
+                        <button class="btn waves-effect waves-light btnstyle editbtn" type="button">Edit
+                            <i class="material-icons right">edit</i>
+                        </button>
+                    </div>
+                    <div class="col s6 btnrow">
+                        <button class="btn waves-effect waves-white btnsize red btnstyle delbtn" type="button"
+                            id="delbtn">Remove
+                            <i class="material-icons right">delete</i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col s12 btnrow">
+                        <span class="messagestyle" id="message">{{message}}</span>
+                    </div>
+                </div>
+            </div>
+            <!--            </div>-->
+
+        </div>
+        <div class="modal-footer">
+            <a class="btnclose waves-effect waves-green btn-flat" href="#!">Close</a>
+        </div>
+    </div>
+
+    <!-- Modal Structure For Picture Update -->
+
+    <div id="modal2" class="modal" style="width:400px; max-height: 700px">
+        <div class="modal-content">
+
+            <div style="padding: 10px;">
+                <input type="hidden" id="icon_cid" />
+                <img id="icon" width="325" height="250" />
+            </div>
+
+            <div style="padding: 10px;"><b>SELECT NEW PICTURE</b></div>
+
+            <div style="padding: 15px">
+                <div class="file-field input-field">
+                    <div class="btn">
+                        <span>File</span>
+                        <input required type="file" id="newicon">
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text">
+                    </div>
+                </div>
+
+                <button class="btn waves-effect waves-light iconbtn">Edit Icon
+                    <i class="material-icons right">edit</i>
+                </button>
+                <div class="row"  style="margin-top: 10px;">
+                    <div class="col s12 btnrow">
+                        <span class="messagestyle" id="imessage">{{message}}</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="btnclose waves-effect waves-green btn-flat" href="#!">Close</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<!-- Compiled and minified JavaScript -->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript">
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#modal1').modal();
+        $('#modal2').modal();
+        $('#categoryname').val(' ')
+
+        $('.editdeletebtn').click(function () {
+            $('#message').html("")
+            $('#categoryname').val($(this).attr('cname'))
+            $('#categoryid').val($(this).attr('cid'))
+
+        })
+        $('.editbtn').click(function () {
+
+            $.getJSON('http://localhost:8000/editcategory', { categoryid: $('#categoryid').val(), categoryname: $('#categoryname').val() }, function (data) {
+                if (data.result) { $('#message').html("Category Updated Successfully..") }
+                else { $('#message').html("Fail to  Update Category..") }
+
+            })
+
+        })
+
+        $('.delbtn').click(function () {
+            $.getJSON('http://localhost:8000/deletecategory', { categoryid: $('#categoryid').val() }, function (data) {
+                // alert("xxx")
+                if (data.result) { $('#message').html("Category Deleted Successfully..") }
+                else { $('#message').html("Fail to  Delete Category..") }
+
+            })
+
+        })
+
+        $('.btnclose').click(function () {
+
+            $('#modal1').modal('close');
+            window.location.reload('http://localhost:8000/displayallcategories')
+
+        })
+
+        $('.btniconclose').click(function () {
+
+            $('#modal2').modal('close');
+            window.location.reload('http://localhost:8000/displayallcategories')
+
+        })
+
+        $('.imgbtn').click(function () {
+            // alert($(this).attr('cid'))
+            $('#icon_cid').val($(this).attr('cid'))
+            $('#modal2').modal('open');
+            $('#icon').attr('src', `/static/${$(this).attr('categoryicon')}`)
+        })
+
+
+    });
+
+    $('.iconbtn').click(function () {
+        var formData = new FormData()
+        // alert($('#icon_cid').val())
+        formData.append('categoryid', $('#icon_cid').val())
+        var file = $('#newicon')[0].files
+        if (file.length > 0)
+            formData.append('categoryicon', file[0])
+
+        $.ajax({
+            url: '/editcategoryicon',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            type: 'post',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response != 0) {
+                    // alert(true)
+                    $('#imessage').html("Icon Updated Successfully..")
+                }
+                else {
+                    // alert(false)
+                    $('#imessage').html("Fail To Update Icon")
+
+                }
+            }
+
+        })
+
+    })
+</script>
+
+
+</html>

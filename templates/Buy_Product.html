@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<link href="/static/category.css" />
+
+<html>
+  <head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/static/userinterface.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+
+    <!--Import Google Icon Font-->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <title>Continue Shopping</title>
+  </head>
+
+  <body style="background: #f0ffff">
+<div>{% include 'NavBar.html' %}</div>
+    <div style="background: #ffff;
+                margin-left: 50px;
+                margin-right: 50px;
+                margin-bottom: 50px;
+                border-radius: 20px;">
+      <div  style="padding: 15px; margin-top: 30px">
+        <div class="row">
+          <div class="col s6">
+            <img src="/static/{{product.producticon }}" width="60%"/>
+          </div>
+          <div class="col s6">
+            <div style="font-family: -webkit-body;
+                        font-size: 30px;
+                        font-weight: 600;">
+              {{ product.productname }}
+            </div>
+            <div >
+              <span style="background-color: #f0ffff">{{ product.cname }}</span
+              ><span style="margin-left: 20px;background-color: #f0ffff">{{ product.scname }}</span>
+            </div>
+            <div style="display: flex;
+            flex-direction: row;">
+                <span>
+                    <a href="" style="color:black"><i class="material-icons">favorite_border</i></a>
+                </span>
+                <span style="margin-left: 10px;font-size: large;">
+                    4.8
+                </span>
+                <span style="margin-left:10px">
+                    <a href="" style="color:black;size: small;"><i class="material-icons ">star</i></a>
+                    <a href="" style="color:black;size: small;"><i class="material-icons ">star</i></a>
+                    <a href="" style="color:black;size: small;"><i class="material-icons ">star</i></a>
+                    <a href="" style="color:black;size: small;"><i class="material-icons ">star</i></a>
+                    <a href="" style="color:black;size: small;"><i class="material-icons ">star_border</i></a>
+                </span>
+            </div>
+            <div style="margin-top: 20px; margin-bottom: 30px">
+              <hr size="3" width="100%" color="black" />
+            </div>
+            <div style="display: flex; flex-direction: column">
+              <div>
+                <span style="font-family: Arial; font-size: 20px">
+                    Best Price: 
+                </span>
+                <span style="font-size: x-large;color: red;">
+                    ₹{{product.productofferprice}}
+                </span>
+              </div>
+
+              <span>MRP:<s>₹{{ product.productprice }}</s></span>
+              <span>(Inclusive of all taxes)</span>
+              <ul>
+                <li>
+                  * This product cannot be returned for a refund or exchange.
+                </li>
+                <li>* Mkt: {{ product.bname }}</li>
+                <li>* Country of Origin: India.</li>
+                <li>
+                  * Delivery charges if applicable will be applied at checkout.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div>
+            <span id="qtycomponent">
+              <a
+                productid="{{ product.productid }}"
+                product="{{ product }}"
+                class="btn-floating btn-small minus"
+                style="background: #01a3a4">
+                <i class="material-icons">remove</i>
+              </a>
+              <span id="qtyac">1</span>
+              <a
+                product="{{ product }}"
+                class="btn-floating btn-small plus"
+                style="background: #01a3a4">
+                <i class="material-icons">add</i>
+              </a>
+            </span>
+
+            <button
+              product="{{ product }}"
+              class="btn wave-light wave-effect addtocart"
+              style="background: #01a3a4; margin-right: 10px">
+              Add To Cart
+            </button>
+            <button
+              class="btn wave-light wave-effect"
+              style="background: #01a3a4; margin-left: 10px">
+              Buy Now
+            </button>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    {% include 'Footer.html' %}
+  </body>
+</html>
+<script>
+  // Plus minus qty
+  $('.plus').click(function(){
+    // alert(1)
+    var v=$('#qtyac').html()
+    if(v<=4)
+       v++
+    $('#qtyac').html(v)
+    cartContainer($(this).attr('product'),$('#qtyac').html())
+
+  })
+
+  $('.minus').click(function(){
+    var v=$('#qtyac').html()
+    if(v>0)
+    v--
+    if(v==0) {
+        $('.addtocart').show()
+        $('#qtycomponent').hide()
+        // alert($(this).attr('productid'))
+        // removeCartContainer($(this).attr('productid'))  
+      }
+    else
+    {
+    cartContainer($(this).attr('product'),$('#qtyac').html())
+    $('#qtyac').html(v)
+    }
+  })
+
+  $('.addtocart').click(function(){
+    $('.addtocart').hide()
+    $('#qtycomponent').show()
+    $('#qtyac').html(1)
+    cartContainer($(this).attr('product'),$('#qtyac').html())
+  })
+
+
+function cartContainer(product,qtyac){
+  $.getJSON('/add_to_cart',{'product':product,'qtyac':qtyac},function(data){
+    // var cart=JSON.parse(data.data)
+    // var key=Object.keys(cart)
+    // $('#shoppingcart').html(`(${key.length} Articals)&nbsp;&nbsp;&nbsp;`)
+  })
+}
+</script>

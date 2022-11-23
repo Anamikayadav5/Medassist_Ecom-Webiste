@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<link href="/static/category.css" rel="stylesheet">
+<html lang="en">
+
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('select').formSelect();
+        });
+
+    </script>
+    <script src="/static/project.js"></script>
+
+
+
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <div class="maincontainer">
+        <div class="box" style="padding: 20px; width: 75%;">
+            <div class="boxheading">
+                <span class="headingtext">Brand List</span>
+
+                <span style="padding:3px;width:58%;display: flex;justify-content: flex-end"><a
+                        href="http://localhost:8000/brandinterface"><i class="material-icons"
+                            style="color: #FFFFFF; font-size: 24px;">add_box</i></a></span>
+
+
+            </div>
+            <table class="striped">
+                <thead>
+                    <tr>
+                        <th>Category Id Name</th>
+                        <th>SubCategory Id Name</th>
+                        <th>Brand Id</th>
+                        <th>Brand Name</th>
+                        <th>Contact Person</th>
+                        <th>Mobile Number</th>
+                        <th>Status</th>
+                        <th>Brand Icon</th>
+                        <th>Update</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for row in records %}
+                    <tr>
+                        <td>[{{ row.categoryid }}] {{ row.cname }}</td>
+                        <td>[{{ row.subcategoryid }}] {{ row.scname}}</td>
+                        <td>{{ row.brandid }}</td>
+                        <td>{{ row.brandname }}</td>
+                        <td>{{ row.contactperson }}</td>
+                        <td>{{ row.mobile }}</td>
+                        <td>{{ row.status }}</td>
+                        <td>
+                            <img 
+                            src="/static/{{ row.brandicon }}" 
+                            class="imgbtn" 
+                            brandid="{{ row.brandid }}"
+                            brandicon="{{ row.brandicon }}" 
+                            width="40" />
+                        </td>
+                        <td>
+                            <a 
+                            class="waves-effect waves-light btn modal-trigger btn editdeletebtn modalbtn"
+                            cid="{{ row.categoryid }}" 
+                            sid="{{ row.subcategoryid }}" 
+                            bname="{{ row.brandname }}"
+                            bid="{{row.brandid}}" 
+                            contactperson="{{ row.contactperson }}"
+                            mobile="{{row.mobile}}"
+                            status="{{row.status}}" 
+                            href="#modal1">
+                            Edit/Delete
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal" style="max-height: 700px">
+        <div class="modal-content">
+
+
+            <input type="hidden" id="brandid" />
+            <input type="hidden" id="subcategoryid" />
+            <div class="modelbox">
+                <div class="boxheading">
+                    <span class="headingtextinterface">Brand Interface</span>
+                </div>
+
+
+                <div style="margin-top: 10px;">
+
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">add_shopping_cart</i>
+                            <select id="categoryid" name="categoryid">
+                                <option disabled selected value="">Choose your option</option>
+                            </select>
+                            <label for="categoryid">Category Id</label>
+                        </div>
+
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">add_shopping_cart</i>
+                            <select id="subcatid" name="subcatid">
+                                <option disabled selected value="">Choose your option</option>
+                            </select>
+                            <label for="subcatid">SubCategory Id</label>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">account_circle</i>
+                            <input class="validate" id="brandname" name="brandname" type="text">
+                            <label for="brandname"></label>
+                        </div>
+
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">phone</i>
+                            <input class="validate" id="contactperson" name="contactperson" type="text">
+                            <label for="contactperson"></label>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">phone</i>
+                            <input class="validate" id="mobile" name="mobile" type="text">
+                            <label for="mobile"></label>
+                        </div>
+
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">status</i>
+                            <select id="status" name="status">
+                                <option disabled selected value="">Choose your option</option>
+                                <option value="Top">Top</option>
+                                <option value="Trending">Trending</option>
+                                <option value="Popular">Popular</option>
+                                <option value="Discontinue">Discontinue</option>
+
+                            </select>
+                            <label>Status</label>
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="row ">
+                        <div class="col s6 btnrow">
+                            <button class="btn waves-effect waves-light btnstyle editbtn">Edit
+                                <i class="material-icons right">edit</i>
+                            </button>
+                        </div>
+
+                        <div class="col s6 btnrow">
+                            <button class="btn waves-effect waves-white btnsize red btnstyle editbtn" type="button"
+                                id="delbtn">Remove
+                                <i class="material-icons right">delete</i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s12 btnrow">
+                            <span class="messagestyle" id="message">{{message}}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        </form>
+        <div class="modal-footer">
+            <a href="#!" class="waves-effect waves-green btn-flat btnclose">Close</a>
+        </div>
+
+    </div>
+
+    </div>
+
+
+    <!-- Modal Structure For Picture -->
+    <div id="modal2" class="modal" style="width:400px; max-height: 700px">
+        <div class="modal-content">
+            <div style="padding: 10px;">
+                <input type="hidden" id="icon_bid" />
+                <img id="icon" width="325" height="250"/>
+            </div>
+            <div style="padding: 15px;"><b>Select New Picture:</b></div>
+            <div style="padding: 15px">
+                <div class="file-field input-field">
+                    <div class="btn">
+                        <span>File</span>
+                        <input required type="file" id="newicon">
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text">
+                    </div>
+                </div>
+
+                <button class="btn waves-effect waves-light iconbtn">Edit Icon
+                    <i class="material-icons right">edit</i>
+                </button>
+                
+
+            </div>
+            <div class="row">
+                <div class="col s12 btnrow">
+                    <div id="imessage" class="messagestyle"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="waves-effect waves-green btn-flat btnclose">Close</a>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+<!-- Compiled and minified JavaScript -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js">
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#modal1').modal();
+        $('#modal2').modal();
+        
+
+        $('.editdeletebtn').click(function () {
+            $('#message').html('')
+            // alert($(this).attr('cid'))
+            $('#categoryid').val($(this).attr('cid'))
+            // alert($(this).attr('sid'))
+            $('#subcategoryid').val($(this).attr('sid'))
+            // alert($('#subcategoryid').val()) 
+
+            $.getJSON("http://localhost:8000/fetchallsubcategoryjson", { categoryid: $('#categoryid').val() }, function (data) {
+                var records = data.data
+                // alert(JSON.stringify(records))
+                records.map((item) => {
+                    $('#subcatid').append($("<option>").text(item.subcategoryname).val(item.subcategoryid))
+                })
+                $('#subcatid').val($('#subcategoryid').val())
+                $('select').formSelect();
+            })
+            $('#brandname').val($(this).attr('bname'))
+            $('#brandid').val($(this).attr('bid'))
+            $('#contactperson').val($(this).attr('contactperson'))
+            $('#mobile').val($(this).attr('mobile'))
+            $('#status').val($(this).attr('status'))
+
+            $('select').formSelect()
+        })
+
+
+        $('.editbtn').click(function () {
+            $.getJSON('http://localhost:8000/editbrand', {
+                categoryid: $('#categoryid').val(),
+                subcategoryid: $('#subcatid').val(),
+                brandid: $('#brandid').val(),
+                brandname: $('#brandname').val(),
+                contactperson: $('#contactperson').val(),
+                mobile: $('#mobile').val(),
+                status: $('#status').val(),
+            }, function (data) {
+                if (data.result) {
+                    $('#message').html("Record Updated Successfully..", "", "Success", { timer: 1500, })
+                } else {
+                    $('#message').html("Fail to Update The Record..", "", "Success", { timer: 1500, })
+                }
+            })
+        })
+
+        $('.delbtn').click(function () {
+            $.getJSON('http://localhost:8000/deletebrand', { brandid: $('#brandid').val()
+            }, function (data) {
+                if (data.result) {
+                    $('#message').html("Record Deleted Successfully..")
+                } else {
+                    $('#message').html("Fail to  Delete Record..")
+                }
+
+            })
+
+        })
+
+        $('.btnclose').click(function () {
+
+            $('#modal1').modal('close');
+            window.location.reload('http://localhost:8000/displayallbrand')
+
+        })
+
+
+        $('.btniconclose').click(function () {
+
+            $('#modal2').modal('close');
+            window.location.reload('http://localhost:8000/displayallbrand')
+
+        })
+
+        $('.imgbtn').click(function () {
+            // alert($(this).attr('brandid'))
+            $('#icon_bid').val($(this).attr('brandid'))
+            $('#modal2').modal('open');
+            $('#icon').attr('src', `/static/${$(this).attr('brandicon')}`)
+        })
+    });
+
+
+    $('.iconbtn').click(function () {
+        var formData = new FormData()
+        // alert($('#icon_bid').val())
+        formData.append('brandid', $('#icon_bid').val())
+        var file = $('#newicon')[0].files
+        if (file.length > 0)
+            formData.append('brandicon', file[0])
+
+        $.ajax({
+            url: '/editbrandicon',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            type: 'post',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response != 0) {
+                    // alert(true)
+                    $('#imessage').html("Icon Updated..")
+                } else {
+                    // alert(false)
+                    $('#imessage').html("Failed to Update..")
+                }
+            }
+
+        })
+
+    })
+
+
+</script>
+
+</html>

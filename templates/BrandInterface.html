@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<link href="/static/category.css" rel="stylesheet">
+<html lang="en">
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+    $(document).ready(function(){
+    $('select').formSelect();
+    });
+    </script>
+
+    <script src="/static/project.js"></script>
+
+</head>
+<meta charset="UTF-8">
+<title>Brand Interface</title>
+
+<body>
+<form action="/submitbrand" enctype="multipart/form-data" method="post">{% csrf_token %}
+
+
+    <div class="maincontainer">
+        <div class="box" style="padding: 20px; width: 75%;">
+
+            <div class="boxheading">
+                <span class="headingtext">Brand Interface</span>
+
+                <span style="padding:3px;width:55%;display: flex;justify-content: flex-end"><a
+                        href="http://localhost:8000/displayallbrand"><i class="material-icons"
+                                                                                style="color: #FFFFFF; font-size: 24px;">toc</i></a></span>
+
+            </div>
+
+            <div style="margin-top: 10px;">
+
+                <div class="row">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">add_shopping_cart</i>
+                        <select id="categoryid" name="categoryid">
+                            <option disabled selected value="">Choose your option</option>
+                        </select>
+                        <label for="categoryid">Category Id</label>
+                    </div>
+
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">add_shopping_cart</i>
+                        <select id="subcategoryid" name="subcategoryid">
+                            <option disabled selected value="">Choose your option</option>
+                        </select>
+                        <label for="subcategoryid">SubCategory Id</label>
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input class="validate" id="brandname" name="brandname" type="text">
+                        <label for="brandname">Brand Name</label>
+                    </div>
+
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">phone</i>
+                        <input class="validate" id="contactperson" name="contactperson" type="text">
+                        <label for="contactperson">Contact Person</label>
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">phone</i>
+                        <input class="validate" id="mobile" name="mobile" type="text">
+                        <label for="mobile">Mobile Number</label>
+                    </div>
+
+                    
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">status</i>
+                        <select id="status" name="status">
+                            <option disabled selected value="">Choose your option</option>
+                            <option value="Top">Top</option>
+                            <option value="Trending">Trending</option>
+                            <option value="Popular">Popular</option>
+                            <option value="Discontinue">Discontinue</option>
+
+                        </select>
+                        <label>Status</label>
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div class="file-field input-field">
+                            <div class="btn">
+                                <span>File</span>
+                                <input name="brandicon" required type="file">
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text">
+                            </div>
+                        </div>
+                    </div>                   
+                </div>
+
+                <div class="row ">
+                    <div class="col s6 btnrow">
+                        <button class="btn waves-effect waves-light btnstyle" name="action" type="submit">Submit
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+
+                    <div class="col s6 btnrow">
+                        <button class="btn waves-effect waves-light btnstyle" name="action" type="reset">Reset
+                            <i class="material-icons right">delete</i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col s12">
+                        <span class="messagestyle btnrow">{{message}}</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</form>
+</body>
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+</html>

@@ -1,0 +1,250 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/static/userinterface.js"></script>
+
+<script>
+    $.getJSON("http://localhost:8000/fetch_all_user_category", function (data) {
+    var htm = "";
+    data.data.map((item) => {
+      htm += `
+        <div style="margin:5px;
+                    
+                    width:auto;
+                    background: #fff; 
+                    height: 30px; 
+                    border-radius: 50px; 
+                    display: flex;
+                    flex-direction: row;
+                    font-family: -webkit-body;
+                    font-size: small;">`;
+        htm += `
+           <div style="display:flex; flex-direction: column;">          
+           <div style="padding: 5px;">   
+              <a href="" style="color:black">           
+              ${item.categoryname}
+              </a>              
+           </div>              
+           </div>`;
+        htm += `</div>`;
+    });
+    console.log(htm)
+    $("#catid").html(htm);
+  });
+</script>
+<div>
+    <nav>
+      <div class="nav-wrapper" style="background: #01a3a4">
+        <a href="http://localhost:8000/home/" class="brand-logo">
+          <span
+            style="
+              color: #fff;
+              font-size: larger;
+              font-weight: bolder;
+              display: flex;
+            "
+          >
+            <img
+              src="/static/medassist_logo copy.png"
+              width="90px"
+              height="70px"
+              alt=""
+            />
+            <span
+              style="font-size: x-large; height: 70px; font-family: cursive"
+              >Med-Assist</span
+            >
+          </span></a
+        >
+
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger">
+          <i class="material-icons">menu</i>
+        </a>
+
+        <!-- search, Cart , Sign-in/up ,  -->
+        <div style="display: flex;
+                    flex-direction: row;
+                    justify-content: end;">
+          <div style="margin-top: 15px;">
+          <span style="display: flex;
+                       flex-direction: row;
+                       justify-content: end;">
+            <span style="background: white;
+                         /* border-radius: 5px; */
+                         height: 40px;
+                         width: 543px;
+                         margin-right: 200px;">
+                 <span class="input-field" 
+                       style="margin-left: 15px;
+                              display: flex;
+                              flex-direction: row;
+                              margin-top: 15px;"> 
+                  <input style="font-family: -webkit-body;
+                                font-size: inherit;
+                                width: 500px;
+                                height: 15px;
+                                color: black;" 
+                          placeholder="Search for medicine & wellness products..." type="text">
+                  <span class="material-icons" 
+                       style="color: teal;
+                              margin-right: 15px;
+                              font-size: revert;
+                              font-weight: bold;">search
+                  </span>
+
+                 </span>
+                 
+            </span>
+          </span>
+        </div>
+
+          <!-- Cart -->
+            <span style="display: flex;
+                         flex-direction: row;
+                         justify-content: end;">
+                 <a href="">
+                   <span class="material-icons" 
+                         style="display: flex;
+                                flex-direction: row-reverse;
+                                font-size: xx-large;
+                                padding-top: 15px;">shopping_cart
+                   </span>
+                 </a>
+                   <span id="shoppingcart" style="display: flex;
+                                flex-direction: row-reverse;
+                                font-size: large;
+                                font-weight: bold;
+                                font-family: -webkit-body;">Cart(0)
+                   </span>
+            </span>
+          
+          <!-- Sign in/Sign up -->
+          <span style="display: flex;
+                       flex-direction: row;
+                       justify-content: end;">
+               <span class="material-icons" 
+                     style="display: flex;
+                            flex-direction: row-reverse;
+                            font-size: xx-large;
+                            padding-top: 15px;
+                            margin-left: 30px;" >person_pin
+               </span>
+               <a href="">
+                 <span style="font-weight: bold;
+                   font-size: large;
+                   margin-right: 30px;
+                   font-family: -webkit-body;">Sign in/Sign up
+                 </span>
+               </a>
+          </span> 
+        </div>
+        <ul class="right hide-on-med-and-down mainmenu"></ul>
+      </div>
+      <div class="nav-wrapper" style="background: #01a3a4;padding-top: 10px;">
+        <div
+          style="
+            display: flex;
+            justify-content: space-evenly;
+            flex-direction: row;
+          "
+        >
+          <a href="sass.html">
+            <span><img
+                   src="/static/medicine.png"
+                   alt=""
+                   style="height: 35px;
+                          width: 35px;
+                          margin-right: 5px"/>
+            </span>
+            <span>Medicine</span> 
+            </a>
+          <a href="badges.html">
+            <span><img
+                    src="/static/wellness.png"
+                    alt=""
+                    style="height: 35px;
+                           width: 35px;
+                           margin-right: 5px"/>
+            </span>
+            <span>Wellness</span>
+          </a>
+          <a href="collapsible.html">
+            <span><img
+                    src="/static/lab_test.png"
+                    alt=""
+                    style="height: 35px;
+                           width: 35px;
+                           margin-right: 5px"/>
+            </span>
+            <span>Lab Tests</span>
+          </a>
+          <a href="mobile.html">
+            <span><img
+                    src="/static/beauty.png"
+                    alt=""
+                    style="height: 35px;
+                           width: 35px;
+                           margin-right: 5px"/>
+            </span>
+            <span>Beauty</span>
+          </a>
+          <a href="mobile.html">
+            <span><img
+                    src="/static/health_corner.png"
+                    alt=""
+                    style="height: 35px;
+                           width: 35px;
+                           margin-right: 5px"/>
+            </span>
+            <span>Health Corner</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <ul class="sidenav" id="mobile-demo">
+      <li><a href="sass.html">Category</a></li>
+      <li><a href="badges.html">SubCategory</a></li>
+      <li><a href="collapsible.html">Brand</a></li>
+      <li><a href="mobile.html">Product</a></li>
+    </ul>
+  </div>
+  <div style="background: #f0ffff">
+    <div
+      style="
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin-top: 60px;
+      "
+      id="catid"
+    ></div>
+ </div>
+
+ <script>
+    $.getJSON("http://localhost:8000/fetch_all_user_category", function (data) {
+    var htm = "";
+    data.data.map((item) => {
+      htm += `
+        <div style="margin:5px;
+                    
+                    width:auto;
+                    background: #fff; 
+                    height: 30px; 
+                    border-radius: 50px; 
+                    display: flex;
+                    flex-direction: row;
+                    font-family: -webkit-body;
+                    font-size: small;">`;
+        htm += `
+           <div style="display:flex; flex-direction: column;">          
+           <div style="padding: 5px;">   
+              <a href="" style="color:black">           
+              ${item.categoryname}
+              </a>              
+           </div>              
+           </div>`;
+        htm += `</div>`;
+    });
+    console.log(htm)
+    $("#catid").html(htm);
+  });
+ </script>
